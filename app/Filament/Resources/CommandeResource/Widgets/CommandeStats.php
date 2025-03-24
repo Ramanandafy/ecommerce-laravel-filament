@@ -15,7 +15,7 @@ class CommandeStats extends BaseWidget
             Stat::make('Nouveau Commandes', Commande::query()->where('status', 'new')->count()),
             Stat::make('Processus Commandes', Commande::query()->where('status', 'processing')->count()),
             Stat::make('Commande accepter', Commande::query()->where('status', 'shipped')->count()),
-            Stat::make('Prix moyenne', Number::currency(Commande::query()->avg('grand_total'), 'eur'))
+           // Stat::make('Prix moyenne', Number::currency(Commande::query()->avg('grand_total'), 'eur'))
 
         ];
     }

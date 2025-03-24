@@ -7,6 +7,7 @@ use App\Livewire\Partials\Navbar;
 use App\Models\Marque;
 use App\Models\Categorie;
 use App\Models\Produit;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -16,6 +17,8 @@ use Livewire\WithPagination;
 
 class ProduitsPage extends Component
 {
+
+
     use WithPagination;
     #[Url()]
     public $selected_categories = [];
@@ -34,6 +37,14 @@ class ProduitsPage extends Component
        $total_count = CartManagement::addItemsToCart($produit_id);
 
        $this->dispatch('update-cart-count',total_count: $total_count)->to(Navbar::class);
+
+     LivewireAlert::title('Pannier ajouter avec success')
+           ->success()
+           ->timer(3000)
+           ->toast(true)
+           ->position('bottom-end')
+           ->show();
+
     }
     public function render()
     {
