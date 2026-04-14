@@ -16,43 +16,63 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="odd:bg-white even:bg-gray-100 dark:odd:bg-slate-900 dark:even:bg-slate-800">
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">20</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">18-02-2024</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"><span class="bg-orange-500 py-1 px-3 rounded text-white shadow">Pending</span></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"><span class="bg-green-500 py-1 px-3 rounded text-white shadow">Paid</span></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">12,000.00</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                    <a href="#" class="bg-slate-600 text-white py-2 px-4 rounded-md hover:bg-slate-500">Vue Details</a>
-                  </td>
-                </tr>
 
-                <tr class="odd:bg-white even:bg-gray-100 dark:odd:bg-slate-900 dark:even:bg-slate-800">
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">20</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">18-02-2024</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"><span class="bg-orange-500 py-1 px-3 rounded text-white shadow">Pending</span></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"><span class="bg-green-500 py-1 px-3 rounded text-white shadow">Paid</span></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">12,000.00</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                    <a href="#" class="bg-slate-600 text-white py-2 px-4 rounded-md hover:bg-slate-500">Vue Details</a>
-                  </td>
-                </tr>
+                @foreach ($commandes as $commande )
 
-                <tr class="odd:bg-white even:bg-gray-100 dark:odd:bg-slate-900 dark:even:bg-slate-800">
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">20</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">18-02-2024</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"><span class="bg-orange-500 py-1 px-3 rounded text-white shadow">Pending</span></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"><span class="bg-green-500 py-1 px-3 rounded text-white shadow">Paid</span></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">12,000.00</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                    <a href="#" class="bg-slate-600 text-white py-2 px-4 rounded-md hover:bg-slate-500">Vue Details</a>
-                  </td>
-                </tr>
+                @php
+                   $status = '';
+                   $payment_status = '';
+
+                   if($commande->status == 'new'){
+                      $status = '<span class="bg-blue-500 py-1 px-3 rounded text-white shadow">Nouveau</span>';
+                   }
+
+                   if($commande->status == 'shipped'){
+                      $status = '<span class="bg-green-500 py-1 px-3 rounded text-white shadow">Accepter</span>';
+                   }
+
+                   if($commande->status == 'delivered'){
+                      $status = '<span class="bg-green-700 py-1 px-3 rounded text-white shadow">Livrer</span>';
+                   }
+
+                   if($commande->status == 'processing'){
+                      $status = '<span class="bg-yellow-500 py-1 px-3 rounded text-white shadow">Processus</span>';
+                   }
+
+                   if($commande->status == 'canceled'){
+                      $status = '<span class="bg-red-500 py-1 px-3 rounded text-white shadow">Annuler</span>';
+                   }
+
+                   if($commande->payment_status == 'pending'){
+                    $payment_status = '<span class="bg-blue-500 py-1 px-3 rounded text-white shadow">En cours</span>';
+                   }
+
+                   if($commande->payment_status == 'paid'){
+                    $payment_status = '<span class="bg-green-600 py-1 px-3 rounded text-white shadow">Payer</span>';
+                   }
+
+                   if($commande->payment_status == 'failed'){
+                    $payment_status = '<span class="bg-red-500 py-1 px-3 rounded text-white shadow">Echoue</span>';
+                   }
+                @endphp
+
+                <tr class="odd:bg-white even:bg-gray-100 dark:odd:bg-slate-900 dark:even:bg-slate-800" wire:key='{{ $commande->id }}' >
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{{ $commande->id }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ $commande->created_at->format('d-m-Y') }} </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"> {!! $status !!} </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200"> {!! $payment_status !!} </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ Number::currency($commande->grand_total, 'eur') }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                      <a href="/mon-commande/ {{ $commande->id }}" class="bg-slate-600 text-white py-2 px-4 rounded-md hover:bg-slate-500">Vue Details</a>
+                    </td>
+                  </tr>
+                @endforeach
 
               </tbody>
             </table>
           </div>
         </div>
+        {{ $commandes->links() }}
       </div>
     </div>
   </div>
