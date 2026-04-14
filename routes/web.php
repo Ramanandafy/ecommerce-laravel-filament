@@ -33,9 +33,9 @@ Route::middleware('guest')->group(function(){
 Route::middleware('auth')->group(function(){
     Route::get('/verifié', VerifiéPage::class);
     Route::get('/mon-commande', MonCommandePage::class);
-    Route::get('/mon-commande/{commande}', MonCommandeDetailPage::class);
-    Route::get('/success', SuccessPage::class);
-    Route::get('/cancel', CancelPage::class);
+    Route::get('/mon-commande/{commande_id}', MonCommandeDetailPage::class)->name('mon-commande-show');
+    Route::get('/success', SuccessPage::class)->name(name: 'success');
+    Route::get('/cancel', CancelPage::class)->name('cancel');
     Route::get('/logout', function(){
         auth()->logout();
         return redirect('/');
