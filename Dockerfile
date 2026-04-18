@@ -2,19 +2,20 @@ FROM php:8.2-fpm
 
 WORKDIR /var/www
 
-# Install system dependencies
+# Install system dependencies (IMPORTANT FIX POSTGRES)
 RUN apt-get update && apt-get install -y \
     git \
     curl \
+    zip \
+    unzip \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
-    zip \
-    unzip \
     libzip-dev \
-    libicu-dev
+    libicu-dev \
+    libpq-dev
 
-# Install PHP extensions (IMPORTANT FIX POUR LARAVEL + POSTGRES)
+# Install PHP extensions
 RUN docker-php-ext-install \
     pdo_mysql \
     pdo_pgsql \
@@ -26,16 +27,16 @@ RUN docker-php-ext-install \
     zip \
     intl
 
-# Install Composer
+# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy project files
+# Copy project
 COPY . .
 
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Clear Laravel cache (IMPORTANT pour éviter 500)
+# Clear cache
 RUN php artisan config:clear || true
 RUN php artisan cache:clear || true
 RUN php artisan view:clear || true
