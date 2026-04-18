@@ -2,7 +2,7 @@ FROM php:8.2-fpm
 
 WORKDIR /var/www
 
-# Install system dependencies (IMPORTANT FIX POSTGRES)
+# Install system dependencies (avec PostgreSQL support)
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -27,19 +27,26 @@ RUN docker-php-ext-install \
     zip \
     intl
 
-# Composer
+# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy project
+# Copy project files
 COPY . .
 
-# Install dependencies
+# Install Laravel dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Clear cache
+# Laravel setup (ANTI 500 ERROR)
+RUN php artisan key:generate || true
 RUN php artisan config:clear || true
 RUN php artisan cache:clear || true
 RUN php artisan view:clear || true
+
+# Run migrations (IMPORTANT)
+RUN php artisan migrate --force || true
+
+# Storage link
+RUN php artisan storage:link || true
 
 # Permissions
 RUN chown -R www-data:www-data /var/www
