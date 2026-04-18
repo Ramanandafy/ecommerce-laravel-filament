@@ -6,7 +6,8 @@
 ![Status](https://img.shields.io/badge/status-active-success)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-# 🛒 E-commerce Laravel Filament
+![GitHub stars](https://img.shields.io/github/stars/Ramanandafy/ecommerce-laravel-filament?style=social)
+![GitHub forks](https://img.shields.io/github/forks/Ramanandafy/ecommerce-laravel-filament?style=social)
 
 Application e-commerce moderne développée avec Laravel, Filament et Livewire.  
 Ce projet permet de gérer des produits, un panier, des commandes et un système de paiement en ligne.
@@ -137,10 +138,10 @@ Ce projet est encore en évolution.
 ![Home](public/screenshots/home.PNG)
 
 ### 🛍️ Produits
-![Products](public/screenshots/products.PNG)
+![Products](public/screenshots/produitd.PNG)
 
 ### 🛒 Panier
-![Cart](public/screenshots/cart.PNG)
+![Cart](public/screenshots/panier.PNG)
 
 ### ⚙️ Admin Filament
 ![Admin](public/screenshots/admin.PNG)
